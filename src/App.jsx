@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { BsChevronRight } from "react-icons/bs";
 import { FaPlus, FaTiktok, FaTimes, FaUser } from "react-icons/fa";
-import { GiCorn } from "react-icons/gi";
 import { IoMdRose } from "react-icons/io";
 import { MdOutlineLiveTv } from "react-icons/md";
 import { PiHandWavingLight, PiShareFatLight } from "react-icons/pi";
@@ -78,7 +77,7 @@ function App() {
 
   const handleAddRose = (video) => {
     handleButtonClick();
-    setReactionVideo(video)
+    setReactionVideo(video);
     if (roses < 100) {
       setRoses(roses + 1);
     } else {
@@ -106,33 +105,38 @@ function App() {
   const [chat, setChat] = useState([
     {
       id: 1,
-      username: "github",
-      comentario: "Olá, pessoal!",
+      username: "diego3g",
+      comentario: "Não acredito que ensinei tailwind pra isso!",
     },
     {
       id: 2,
-      username: "twitter",
-      comentario: "Oi, tudo bem?",
+      username: "filipedeschamps",
+      comentario: "#delicinha!",
     },
     {
       id: 3,
-      username: "facebook",
-      comentario: "Estou ótimo, obrigado!",
+      username: "rodrigorgtic",
+      comentario: "É Diegão, criamos um monstro!",
     },
     {
       id: 4,
-      username: "netflix",
-      comentario: "E vocês?",
+      username: "maykbrito",
+      comentario: "Olha quanta experiência massa temos aqui!",
+    },
+    {
+      id: 4,
+      username: "maykbrito",
+      comentario: "Com certeza esse aí fez o discovery!",
     },
     {
       id: 5,
-      username: "tiktok",
-      comentario: "Tudo tranquilo por aqui!",
+      username: "rocketseat-education",
+      comentario: "Esse aí na trilha de IA da Rocketseat iria fazer loucuras!",
     },
     {
       id: 6,
-      username: "apple",
-      comentario: "Que bom saber!",
+      username: "diego3g",
+      comentario: "Com certeza rocketseat!",
     },
   ]);
 
@@ -177,7 +181,8 @@ function App() {
             src={reactionVideo}
             controls={false}
             autoPlay
-            muted
+            muted={false}
+            volume={0.5}
             onEnded={handleSubstituteVideoEnded}
           />
         )}
@@ -186,7 +191,9 @@ function App() {
           {!isLiveOpen ? (
             <div
               className="w-auto h-full  aspect-[9/16] flex flex-col justify-between"
-              onClick={() => setIsLiveOpen(true)}
+              onClick={() => {
+                setIsLiveOpen(true);
+              }}
             >
               <div className="flex w-full justify-between items-center px-4">
                 <MdOutlineLiveTv className="w-8 h-8" />
@@ -354,8 +361,14 @@ function App() {
                     onKeyPress={handleKeyPress}
                     className="w-4/5 h-8 bg-zinc-900/60 px-2 py-1 rounded-full placeholder-white text-sm"
                   />
-                  <IconFloating handleAddRose={() => handleAddRose("/video-2.mp4")} icon="rose" />
-                  <IconFloating handleAddRose={() => handleAddRose("/video-3.mp4")} icon="corn" />
+                  <IconFloating
+                    handleAddRose={() => handleAddRose("/video-2.mp4")}
+                    icon="rose"
+                  />
+                  <IconFloating
+                    handleAddRose={() => handleAddRose("/video-3.mp4")}
+                    icon="corn"
+                  />
 
                   <button
                     onClick={handleNavigatorShare}
