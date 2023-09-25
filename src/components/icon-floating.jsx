@@ -1,8 +1,9 @@
 import { cn } from "@/lib/utils";
 import { useRef } from "react";
 import { IoMdRose } from "react-icons/io";
+import { GiCorn } from "react-icons/gi";
 
-export function IconFloating({ handleAddRose }) {
+export function IconFloating({ handleAddRose, icon = "rose" }) {
   const heartRef = useRef(null);
 
   const onHeartClick = () => {
@@ -34,19 +35,35 @@ export function IconFloating({ handleAddRose }) {
         ref={heartRef}
         className="absolute left-1/2 hidden -translate-x-1/2"
       >
-        <IoMdRose size={32} className="fill-red-600/80 stroke-red-600" />
+        {icon == "rose" ? (
+          <IoMdRose size={32} className="fill-red-600/80 stroke-red-600" />
+        ) : (
+          <GiCorn size={32} className="fill-yellow-500/80 stroke-yellow-600" />
+        )}
       </span>
 
       {/* animate-heartbeat is custom animation */}
-      <IoMdRose
-        className={cn(
-          "transition-colors group-hover:fill-red-600 group-hover:animate-heartbeat z-10 group-hover:stroke-red-600 delay-0",
-          {
-            "fill-red-600 stroke-red-600": true,
-            "stroke-neutral-700 fill-neutral-700": !true,
-          }
-        )}
-      />
+      {icon == "rose" ? (
+        <IoMdRose
+          className={cn(
+            "transition-colors group-hover:fill-red-600 group-hover:animate-heartbeat z-10 group-hover:stroke-red-600 delay-0",
+            {
+              "fill-red-600 stroke-red-600": true,
+              "stroke-neutral-700 fill-neutral-700": !true,
+            }
+          )}
+        />
+      ) : (
+        <GiCorn
+          className={cn(
+            "transition-colors group-hover:fill-yellow-500 group-hover:animate-heartbeat z-10 group-hover:stroke-yellow-500 delay-0",
+            {
+              "fill-yellow-500 stroke-yellow-500": true,
+              "stroke-neutral-700 fill-neutral-700": !true,
+            }
+          )}
+        />
+      )}
     </button>
   );
 }

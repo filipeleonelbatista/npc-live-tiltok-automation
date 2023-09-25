@@ -1,15 +1,41 @@
-import { MdOutlineLiveTv } from "react-icons/md";
+import { useEffect, useRef, useState } from "react";
 import { BiSearch } from "react-icons/bi";
 import { BsChevronRight } from "react-icons/bs";
-import { FaPlus, FaUser, FaTiktok, FaTimes } from "react-icons/fa";
+import { FaPlus, FaTiktok, FaTimes, FaUser } from "react-icons/fa";
+import { GiCorn } from "react-icons/gi";
 import { IoMdRose } from "react-icons/io";
+import { MdOutlineLiveTv } from "react-icons/md";
 import { PiHandWavingLight, PiShareFatLight } from "react-icons/pi";
-import React, { useEffect, useState } from "react";
 import { IconFloating } from "./components/icon-floating";
 
 function App() {
   const [isLiveOpen, setIsLiveOpen] = useState(false);
-  const [isRousesVideo, setIsRousesVideo] = useState(false);
+
+  const [currentVideo, setCurrentVideo] = useState("main");
+  const mainVideoRef = useRef(null);
+  const substituteVideoRef = useRef(null);
+
+  const handleButtonClick = () => {
+    if (currentVideo === "main") {
+      if (mainVideoRef.current) {
+        mainVideoRef.current.pause();
+      }
+      setCurrentVideo("substitute");
+      if (substituteVideoRef.current) {
+        substituteVideoRef.current.play();
+      }
+    }
+  };
+
+  const handleSubstituteVideoEnded = () => {
+    if (substituteVideoRef.current) {
+      substituteVideoRef.current.pause();
+    }
+    setCurrentVideo("main");
+    if (mainVideoRef.current) {
+      mainVideoRef.current.play();
+    }
+  };
 
   const [contador, setContador] = useState(0);
 
@@ -42,13 +68,17 @@ function App() {
   }, [contador]);
 
   const [roses, setRoses] = useState(1);
+  const [reactionVideo, setReactionVideo] = useState("/video-2.mp4");
 
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
-  const handleAddRose = () => {
+
+  const handleAddRose = (video) => {
+    handleButtonClick();
+    setReactionVideo(video)
     if (roses < 100) {
       setRoses(roses + 1);
     } else {
@@ -130,12 +160,27 @@ function App() {
   return (
     <div className="p-4 h-screen w-full flex justify-center">
       <div className="overflow-hidden relative h-full w-auto aspect-[9/16] rounded border flex flex-col justify-between">
-        <video className="h-auto w-full" controls={false} autoPlay muted loop>
-          <source
-            src={isRousesVideo ? "/video-2.mp4" : "/video-1.mp4"}
-            type="video/mp4"
+        {currentVideo === "main" ? (
+          <video
+            className="h-auto w-full"
+            ref={mainVideoRef}
+            src="/video-1.mp4"
+            controls={false}
+            autoPlay
+            muted
+            loop
           />
-        </video>
+        ) : (
+          <video
+            className="h-auto w-full"
+            ref={substituteVideoRef}
+            src={reactionVideo}
+            controls={false}
+            autoPlay
+            muted
+            onEnded={handleSubstituteVideoEnded}
+          />
+        )}
 
         <div className="absolute w-full h-full aspect-[9/16] z-10 flex flex-col justify-between">
           {!isLiveOpen ? (
@@ -309,7 +354,8 @@ function App() {
                     onKeyPress={handleKeyPress}
                     className="w-4/5 h-8 bg-zinc-900/60 px-2 py-1 rounded-full placeholder-white text-sm"
                   />
-                  <IconFloating handleAddRose={handleAddRose} />
+                  <IconFloating handleAddRose={() => handleAddRose("/video-2.mp4")} icon="rose" />
+                  <IconFloating handleAddRose={() => handleAddRose("/video-3.mp4")} icon="corn" />
 
                   <button
                     onClick={handleNavigatorShare}
