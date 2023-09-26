@@ -163,6 +163,26 @@ function App() {
 
   return (
     <div className="p-4 h-screen w-full flex justify-center">
+      <div className="hidden">
+        <video
+          className="hidden"
+          src="/video-1.mp4"
+          controls={false}
+          preload="auto"
+        />
+        <video
+          className="hidden"
+          src="/video-2.mp4"
+          controls={false}
+          preload="auto"
+        />
+        <video
+          className="hidden"
+          src="/video-3.mp4"
+          controls={false}
+          preload="auto"
+        />
+      </div>
       <div className="overflow-hidden relative h-full w-auto aspect-[9/16] rounded border flex flex-col justify-between">
         {currentVideo === "main" ? (
           <video
@@ -173,6 +193,7 @@ function App() {
             autoPlay
             muted
             loop
+            preload="auto"
           />
         ) : (
           <video
